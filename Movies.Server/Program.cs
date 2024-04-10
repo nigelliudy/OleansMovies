@@ -71,7 +71,9 @@ namespace Movies.Server
 						.ReadFrom.Configuration(ctx.Configuration)
 						.Enrich.WithMachineName()
 						.Enrich.WithDemystifiedStackTraces()
-						.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext:l}] {Message:lj}{NewLine}{Exception}");
+						.WriteTo.Console(
+							outputTemplate:
+							"[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext:l}] {Message:lj}{NewLine}{Exception}");
 
 					loggerConfig.WithAppInfo(appInfo);
 				})
@@ -84,22 +86,21 @@ namespace Movies.Server
 							HostBuilderContext = ctx,
 							SiloOptions = new AppSiloOptions
 							{
-								SiloPort = GetAvailablePort(11111, 12000),
-								GatewayPort = 30001
+								SiloPort = GetAvailablePort(11111, 12000), GatewayPort = 30001
 							}
 						})
 						.ConfigureApplicationParts(parts => parts
 							.AddApplicationPart(typeof(SampleGrain).Assembly).WithReferences()
+							.AddApplicationPart(typeof(QueryMoviesGrain).Assembly).WithReferences()
 						)
 						.AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
-					;
-
+						;
+					//builder.AddGrainService<MovieService>();
 				})
 				.ConfigureServices((ctx, services) =>
 				{
 					services.AddHostedService<ApiHostedService>();
-				})
-				;
+				});
 
 			return hostBuilder.RunConsoleAsync();
 		}

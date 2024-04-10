@@ -58,9 +58,7 @@ namespace Movies.Core
 
 		private static readonly Dictionary<string, string> EnvironmentMapping = new Dictionary<string, string>
 		{
-			["Development"] = "dev",
-			["Staging"] = "staging",
-			["Production"] = "prod",
+			["Development"] = "dev", ["Staging"] = "staging", ["Production"] = "prod",
 		};
 
 		public AppInfo()
@@ -82,7 +80,8 @@ namespace Movies.Core
 			ShortName = Name.Split('/').Last();
 
 			if (string.IsNullOrEmpty(Environment))
-				throw new InvalidOperationException("Environment is not set. Please specify the environment via 'ASPNETCORE_ENVIRONMENT'");
+				throw new InvalidOperationException(
+					"Environment is not set. Please specify the environment via 'ASPNETCORE_ENVIRONMENT'");
 
 			ClusterId = $"{Name}-{Version}";
 

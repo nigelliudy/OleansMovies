@@ -18,7 +18,8 @@ namespace Movies.Core
 		public static Task ForEachAsync<T>(this IEnumerable<T> collection, Func<T, Task> transform)
 			=> Task.WhenAll(collection.Select(transform));
 
-		public static Task<TResult[]> SelectAsync<TInput, TResult>(this IEnumerable<TInput> collection, Func<TInput, Task<TResult>> transform)
+		public static Task<TResult[]> SelectAsync<TInput, TResult>(this IEnumerable<TInput> collection,
+			Func<TInput, Task<TResult>> transform)
 			=> Task.WhenAll(collection.Select(transform));
 
 		/// <summary>

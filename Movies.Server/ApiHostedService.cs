@@ -41,7 +41,8 @@ namespace Movies.Server
 			_logger = logger;
 			logger.LogInformation("Initializing api {appName} ({version}) [{env}] on port {apiPort}...",
 				appInfo.Name, appInfo.Version, appInfo.Environment, options.Value.Port);
-			ConsoleTitleBuilder.Append(() => $"(Api port: {options.Value.Port} | pid: {Process.GetCurrentProcess().Id})");
+			ConsoleTitleBuilder.Append(
+				() => $"(Api port: {options.Value.Port} | pid: {Process.GetCurrentProcess().Id})");
 
 			_host = WebHost.CreateDefaultBuilder()
 				.UseSerilog()

@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Movies.Contracts;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Movies.Server.Controllers
 {

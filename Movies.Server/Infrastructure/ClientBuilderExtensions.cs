@@ -11,7 +11,8 @@ namespace Movies.Server.Infrastructure
 {
 	public static class ClientBuilderExtensions
 	{
-		public static IServiceCollection UseOrleansClient(this IServiceCollection services, ClientBuilderContext context)
+		public static IServiceCollection UseOrleansClient(this IServiceCollection services,
+			ClientBuilderContext context)
 		{
 			if (context == null)
 				throw new ArgumentNullException($"{nameof(context)}");
@@ -31,6 +32,7 @@ namespace Movies.Server.Infrastructure
 
 				Console.ReadLine();
 			}
+
 			return services;
 		}
 
@@ -57,7 +59,8 @@ namespace Movies.Server.Infrastructure
 					return false;
 				}
 
-				var delay = RandomUtils.GenerateNumber(clientClusterConfig.ConnectionRetry.MinDelaySeconds, clientClusterConfig.ConnectionRetry.MaxDelaySeconds);
+				var delay = RandomUtils.GenerateNumber(clientClusterConfig.ConnectionRetry.MinDelaySeconds,
+					clientClusterConfig.ConnectionRetry.MaxDelaySeconds);
 				Console.WriteLine("Client cluster {0} failed to connect. Attempt {1} of {2}. Retrying in {3}s.",
 					context.ClusterId, attempt, clientClusterConfig.ConnectionRetry.TotalRetries, delay);
 				await Task.Delay(TimeSpan.FromSeconds(delay));
@@ -82,11 +85,10 @@ namespace Movies.Server.Infrastructure
 			}
 
 			return clientBuilder.Configure<ClusterOptions>(config =>
-				{
-					config.ClusterId = context.ClusterId;
-					config.ServiceId = context.ServiceId;
-				});
+			{
+				config.ClusterId = context.ClusterId;
+				config.ServiceId = context.ServiceId;
+			});
 		}
-
 	}
 }

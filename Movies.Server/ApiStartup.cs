@@ -10,7 +10,15 @@ using Movies.Core;
 using Movies.GrainClients;
 using Movies.Server.Gql;
 using Movies.Server.Gql.App;
+using Movies.Server.Gql.Movie;
 using Movies.Server.Infrastructure;
+using System.Reflection;
+using System.IO;
+using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Movies.Contracts;
+using Movies.Data;
 
 namespace Movies.Server
 {
@@ -36,7 +44,7 @@ namespace Movies.Server
 			{
 				builder
 					// .SetIsOriginAllowed((host) => true)
-					.WithOrigins("http://localhost:4200")
+					.WithOrigins("http://localhost:6600")
 					.AllowAnyMethod()
 					.AllowAnyHeader()
 					.AllowCredentials()
@@ -49,16 +57,18 @@ namespace Movies.Server
 				options.AllowSynchronousIO = true;
 			});
 
+			services.AddHealthChecks();
 			services.AddAppClients();
-			services.AddAppGraphQL();
+			services.AddMovieGraphQL();
 			services.AddControllers()
-			.AddNewtonsoftJson();
+				.AddNewtonsoftJson();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(
 			IApplicationBuilder app,
-			IWebHostEnvironment env
+			IWebHostEnvironment env,
+			IHostApplicationLifetime life
 		)
 		{
 			app.UseCors("TempCorsPolicy");
@@ -84,7 +94,27 @@ namespace Movies.Server
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				// For docker directive to check app status using basic health check
+				// HEALTHCHECK CMD curl --fail http://localhost:6600/health || exit
+				endpoints.MapHealthChecks("/health");
 			});
+
+			life.ApplicationStarted.Register(OnApplicationStarted(app).Wait);
+		}
+
+		private async Task OnApplicationStarted(IApplicationBuilder app)
+		{
+			string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+			var dataFilename = Path.Combine(path, "movies.json");
+			if (!File.Exists(dataFilename))
+			{
+				Console.WriteLine("*** File path not found: {0}", dataFilename);
+			}
+
+			Console.WriteLine("Data file name is '{0}'.", dataFilename);
+
+			var grainClient = app.ApplicationServices.GetService<ISampleGrainClient>();
+			await grainClient.Configure(dataFilename);
 		}
 	}
 }

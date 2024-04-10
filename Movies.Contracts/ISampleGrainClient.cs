@@ -6,5 +6,7 @@ namespace Movies.Contracts
 	{
 		Task<SampleDataModel> Get(string id);
 		Task Set(string key, string name);
+
+		Task Configure(string filename);
 	}
 }

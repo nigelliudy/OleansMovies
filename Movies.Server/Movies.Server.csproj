@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Gql\Movie" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -55,6 +56,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Movies.Contracts\Movies.Contracts.csproj" />
     <ProjectReference Include="..\Movies.Core\Movies.Core.csproj" />
+    <ProjectReference Include="..\Movies.Data\Movies.Data.csproj" />
     <ProjectReference Include="..\Movies.GrainClients\Movies.GrainClients.csproj" />
     <ProjectReference Include="..\Movies.Grains\Movies.Grains.csproj" />
   </ItemGroup>
@@ -68,6 +70,10 @@
     </Content>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\movies.json">
+      <Link>movies.json</Link>
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

@@ -7,7 +7,8 @@ namespace Movies.Core
 {
 	public static class ReflectionExtensions
 	{
-		private static readonly ConcurrentDictionary<Type, string> DemystifiedTypeNameCache = new ConcurrentDictionary<Type, string>();
+		private static readonly ConcurrentDictionary<Type, string> DemystifiedTypeNameCache =
+			new ConcurrentDictionary<Type, string>();
 
 		/// <summary>
 		/// Gets the type name as a more clarified name when having generics

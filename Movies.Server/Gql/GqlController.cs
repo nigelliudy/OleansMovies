@@ -53,7 +53,8 @@ namespace Movies.Server.Gql
 
 			try
 			{
-				var perf = result.Perf.ToDictionary(x => $"{x.Category}_{x.Subject?.Camelize()}_elapsed", x => x.Duration);
+				var perf = result.Perf.ToDictionary(x => $"{x.Category}_{x.Subject?.Camelize()}_elapsed",
+					x => x.Duration);
 			}
 			catch (Exception ex)
 			{

@@ -15,4 +15,8 @@
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="System.Threading.Channels" Version="4.7.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Movies.Data\Movies.Data.csproj" />
+  </ItemGroup>
 </Project>

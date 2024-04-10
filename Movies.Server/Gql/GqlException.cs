@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Movies.Server.Gql
 {
-
 	public static class GqlErrorCodes
 	{
 		public const string InvalidValue = "INVALID_VALUE";

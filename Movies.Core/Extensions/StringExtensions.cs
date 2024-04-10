@@ -21,6 +21,7 @@ namespace Movies.Core
 				chars[i + 1] = char.ToLower(chars[i + 1]);
 				chars.Insert(i + 1, '-');
 			}
+
 			return new string(chars.ToArray());
 		}
 
@@ -68,14 +69,16 @@ namespace Movies.Core
 		/// <param name="value">Value to check.</param>
 		/// <param name="func">Action to invoke when null/empty which returns a new value.</param>
 		/// <returns>Returns new value from func when null/empty or original value.</returns>
-		public static string IfNullOrEmptyReturn(this string value, Func<string> func) => value.IsNullOrEmpty() ? func() : value;
+		public static string IfNullOrEmptyReturn(this string value, Func<string> func) =>
+			value.IsNullOrEmpty() ? func() : value;
 
 		/// <summary>
 		/// Returns defaultValue when null/empty, else return original value.
 		/// </summary>
 		/// <param name="value">Value to check.</param>
 		/// <param name="defaultValue">Value to return when null/empty.</param>
-		public static string IfNullOrEmptyReturn(this string value, string defaultValue) => value.IsNullOrEmpty() ? defaultValue : value;
+		public static string IfNullOrEmptyReturn(this string value, string defaultValue) =>
+			value.IsNullOrEmpty() ? defaultValue : value;
 
 		/// <summary>
 		/// Trims all leading occurrences of a string from the string.

@@ -12,4 +12,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJsonVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Movies.Data\Movies.Data.csproj" />
+  </ItemGroup>
+
 </Project>

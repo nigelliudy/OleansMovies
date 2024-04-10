@@ -41,8 +41,7 @@ namespace Movies.Server.Infrastructure
 
 			var claims = new List<Claim>
 			{
-				new Claim(ClaimTypes.Name, provider.Name),
-				new Claim(ClaimTypes.NameIdentifier, provider.Name)
+				new Claim(ClaimTypes.Name, provider.Name), new Claim(ClaimTypes.NameIdentifier, provider.Name)
 			};
 			var claimsIdentity = new ClaimsIdentity(claims, SecretKey);
 			var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -53,18 +52,8 @@ namespace Movies.Server.Infrastructure
 
 		private readonly List<AuthModel> _mockUsers = new List<AuthModel>
 		{
-			new AuthModel
-			{
-				Id = "cla",
-				Name = "clayton",
-				Key = "cla-key"
-			},
-			new AuthModel
-			{
-				Id = "ste",
-				Name = "stephen",
-				Key = "ste-key"
-			},
+			new AuthModel {Id = "cla", Name = "clayton", Key = "cla-key"},
+			new AuthModel {Id = "ste", Name = "stephen", Key = "ste-key"},
 		};
 
 		public Task<AuthModel> GetByKey(string key) => Task.FromResult(_mockUsers.FirstOrDefault(x => x.Key == key));

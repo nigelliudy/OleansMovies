@@ -13,7 +13,7 @@ namespace Movies.Grains
 
 		public Task Set(string name)
 		{
-			State = new SampleDataModel { Id = this.GetPrimaryKeyString(), Name = name };
+			State = new SampleDataModel {Id = this.GetPrimaryKeyString(), Name = name};
 			return Task.CompletedTask;
 		}
 	}

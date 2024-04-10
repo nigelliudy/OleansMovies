@@ -21,7 +21,8 @@ namespace Movies.Server.Gql
 		/// <param name="controller">Current controller.</param>
 		/// <param name="request"></param>
 		/// <returns>Returns action result to return.</returns>
-		public static ActionResult ToActionResult(this ExecutionResult result, ControllerBase controller, GqlRequest request)
+		public static ActionResult ToActionResult(this ExecutionResult result, ControllerBase controller,
+			GqlRequest request)
 		{
 			if (!(result.Errors?.Count > 0))
 				return new GqlExecutionResult(result);
@@ -32,10 +33,12 @@ namespace Movies.Server.Gql
 				if (actionResult != null)
 					return actionResult;
 			}
+
 			return new GqlExecutionResult(result, StatusCodes.Status400BadRequest);
 		}
 
-		private static ActionResult GetResultForException(ExecutionError error, ControllerBase controller, GqlRequest request)
+		private static ActionResult GetResultForException(ExecutionError error, ControllerBase controller,
+			GqlRequest request)
 		{
 			var exception = error.GetBaseException();
 			if (exception is ValidationError)

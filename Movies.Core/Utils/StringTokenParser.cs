@@ -108,7 +108,8 @@ namespace Movies.Core.Utils
 
 			var templatePattern = Template;
 			foreach (var variable in vars)
-				templatePattern = templatePattern.Replace(WrapWithVariableChars(variable), string.Format(VariableTokenPattern, variable));
+				templatePattern = templatePattern.Replace(WrapWithVariableChars(variable),
+					string.Format(VariableTokenPattern, variable));
 			var templateRegex = new Regex(templatePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 			Variables = vars;
@@ -125,6 +126,7 @@ namespace Movies.Core.Utils
 			return input;
 		}
 
-		private string WrapWithVariableChars(string input) => string.Format("{0}{1}{2}", VariableStartChar, input, VariableEndChar);
+		private string WrapWithVariableChars(string input) =>
+			string.Format("{0}{1}{2}", VariableStartChar, input, VariableEndChar);
 	}
 }

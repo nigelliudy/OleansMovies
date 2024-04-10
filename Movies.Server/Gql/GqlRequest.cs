@@ -4,7 +4,8 @@ namespace Movies.Server.Gql
 {
 	public class GqlRequest
 	{
-		protected string DebuggerDisplay => $"OperationName: {OperationName}, NamedQuery: '{NamedQuery}', Query: '{Query}'";
+		protected string DebuggerDisplay =>
+			$"OperationName: {OperationName}, NamedQuery: '{NamedQuery}', Query: '{Query}'";
 
 		public string OperationName { get; set; }
 		public string NamedQuery { get; set; }
