@@ -53,7 +53,7 @@ namespace Movies.Server.Infrastructure
 		private readonly List<AuthModel> _mockUsers = new List<AuthModel>
 		{
 			new AuthModel {Id = "cla", Name = "clayton", Key = "cla-key"},
-			new AuthModel {Id = "ste", Name = "stephen", Key = "ste-key"},
+			new AuthModel {Id = "ste", Name = "stephen", Key = "ste-key"}
 		};
 
 		public Task<AuthModel> GetByKey(string key) => Task.FromResult(_mockUsers.FirstOrDefault(x => x.Key == key));

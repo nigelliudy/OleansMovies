@@ -10,8 +10,8 @@ namespace Movies.Server.Gql.Types
 			Name = "Sample";
 			Description = "A sample data graphtype.";
 
-			Field(x => x.Id, nullable: true).Description("Unique key.");
-			Field(x => x.Name, nullable: true).Description("Name.");
+			Field(x => x.Id, true).Description("Unique key.");
+			Field(x => x.Name, true).Description("Name.");
 		}
 	}
 }

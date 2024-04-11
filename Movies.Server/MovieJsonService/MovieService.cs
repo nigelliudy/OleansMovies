@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading;
 using Movies.Data;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Orleans.Runtime;
 
 namespace Movies.Server.MovieJsonService
 {
@@ -21,20 +19,14 @@ namespace Movies.Server.MovieJsonService
 			using var jsonReader = new JsonTextReader(streamReader);
 			// The data is a property "movies" in the json root, 
 			// which should be the first array encountered.
-			while (jsonReader.TokenType != JsonToken.StartArray)
-			{
-				await jsonReader.ReadAsync(cancellation);
-			}
+			while (jsonReader.TokenType != JsonToken.StartArray) await jsonReader.ReadAsync(cancellation);
 
 			var jsonSerializer = new JsonSerializer();
 			jsonSerializer.Converters.Add(new StringArrayConverter());
 			// Read token by token from the stream
 			while (await jsonReader.ReadAsync(cancellation))
 			{
-				if (jsonReader.TokenType != JsonToken.StartObject)
-				{
-					continue;
-				}
+				if (jsonReader.TokenType != JsonToken.StartObject) continue;
 
 				var theObject = jsonSerializer.Deserialize<MovieJsonModel>(jsonReader);
 				if (theObject is not null)
@@ -46,9 +38,7 @@ namespace Movies.Server.MovieJsonService
 						await context.Movies.AddAsync(movieObject, cancellation);
 					}
 					else
-					{
 						Console.WriteLine($"Duplicate MovieJsonModel {movieObject.Id} : {movieObject.Name}");
-					}
 				}
 			}
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using Movies.Contracts;
 using Orleans;
 using Orleans.Providers;
@@ -18,11 +19,37 @@ namespace Movies.Grains
 			_moviesContext = moviesContext;
 		}
 
-		public Task<Movie[]> List()
-		{
-			return _moviesContext.Movies
+		public Task<Movie[]> GetHighestRate(int take) =>
+			_moviesContext.Movies
+				.OrderByDescending(o => o.Rate)
+				.Take(take)
+				.ToArrayAsync();
+
+		public Task<Movie[]> List() =>
+			_moviesContext.Movies
 				.OrderByDescending(o => o.Id)
 				.ToArrayAsync();
+
+		public Task<Movie[]> SearchByName(string name) =>
+			_moviesContext.Movies
+				.Where(w => EF.Functions.Like(w.Name, $"%{name}%"))
+				.ToArrayAsync();
+
+		public Task<Movie[]> SearchGenres(string searchTerm) =>
+			_moviesContext.Movies
+				.Where(w => StringArrayHas(w.Genres, searchTerm))
+				.ToArrayAsync();
+
+		private bool StringArrayHas(string[] input, string searchTerm)
+		{
+			if (input == null || input.Length == 0) return false;
+
+			foreach (var item in input)
+				if (item.ToLower(CultureInfo.InvariantCulture)
+					.Contains(searchTerm.ToLower(CultureInfo.InvariantCulture)))
+					return true;
+
+			return false;
 		}
 	}
 }

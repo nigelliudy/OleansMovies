@@ -19,26 +19,44 @@ namespace Movies.GrainClients
 
 		public Task<Movie[]> GetHighestRate(int take)
 		{
-			var grain = _grainFactory.GetGrain<IQueryMoviesGrain>(take);
+			var grain = _grainFactory.GetGrain<IListMoviesGrain>($"top {take}");
 			return grain.GetHighestRate(take);
 		}
 
 		public Task<Movie[]> List()
 		{
-			var grain = _grainFactory.GetGrain<IListMoviesGrain>(0);
+			var grain = _grainFactory.GetGrain<IListMoviesGrain>("list");
 			return grain.List();
 		}
 
-		public Task<Movie[]> Search(string searchTerm, int take)
+		public Task<Movie[]> Search(string searchTerm)
 		{
-			var grain = _grainFactory.GetGrain<IListMoviesGrain>(0);
-			return grain.List();
+			var grain = _grainFactory.GetGrain<IListMoviesGrain>($"search by name {searchTerm}");
+			return grain.SearchByName(searchTerm);
 		}
 
-		public Task<int> Create(Movie movie)
+		public Task<Movie[]> SearchGenres(string searchTerm)
+		{
+			var grain = _grainFactory.GetGrain<IListMoviesGrain>($"search by genre {searchTerm}");
+			return grain.SearchGenres(searchTerm);
+		}
+
+		public Task<Movie> MovieDetails(int id)
+		{
+			var grain = _grainFactory.GetGrain<IMovieGrain>(id);
+			return grain.Get();
+		}
+
+		public Task<Movie> Create(Movie movie)
 		{
 			var grain = _grainFactory.GetGrain<ICreateMovieGrain>(Guid.NewGuid());
 			return grain.CreateMovie(movie);
+		}
+
+		public Task<Movie> Update(Movie movie)
+		{
+			var grain = _grainFactory.GetGrain<IMovieGrain>(movie.Id);
+			return grain.Set(movie);
 		}
 	}
 }

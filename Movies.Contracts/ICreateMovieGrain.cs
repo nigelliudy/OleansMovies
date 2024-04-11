@@ -6,6 +6,6 @@ namespace Movies.Contracts
 {
 	public interface ICreateMovieGrain : IGrainWithGuidKey
 	{
-		Task<int> CreateMovie(Movie movie);
+		Task<Movie> CreateMovie(Movie movie);
 	}
 }

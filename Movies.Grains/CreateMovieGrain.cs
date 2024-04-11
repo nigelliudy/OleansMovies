@@ -18,13 +18,13 @@ namespace Movies.Grains
 			_moviesContext = moviesContext;
 		}
 
-		public async Task<int> CreateMovie(Movie movie)
+		public async Task<Movie> CreateMovie(Movie movie)
 		{
-			movie.Id = (await _moviesContext.Movies.MaxAsync(m => m.Id)) + 1;
+			movie.Id = await _moviesContext.Movies.MaxAsync(m => m.Id) + 1;
 			await _moviesContext.Movies.AddAsync(movie);
 			await _moviesContext.SaveChangesAsync();
 
-			return movie.Id;
+			return movie;
 		}
 	}
 }

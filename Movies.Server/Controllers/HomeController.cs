@@ -11,15 +11,12 @@ namespace Movies.Server.Controllers
 	[Route("api/[controller]")]
 	public class HomeController : Controller
 	{
-		private readonly MoviesContext _moviesContext;
 		private readonly IMovieGrainClient _client;
 
 		public HomeController(
-			MoviesContext moviesContext,
 			IMovieGrainClient client
 		)
 		{
-			_moviesContext = moviesContext;
 			_client = client;
 		}
 
@@ -33,7 +30,7 @@ namespace Movies.Server.Controllers
 			return result;
 		}
 
-		[HttpGet("testcontext")]
+		/*[HttpGet("testcontext")]
 		public async Task<Movie[]> GetUsingTestContext()
 		{
 			return await _moviesContext.Movies
@@ -41,6 +38,6 @@ namespace Movies.Server.Controllers
 				.Take(5)
 				.ToArrayAsync()
 				.ConfigureAwait(false);
-		}
+		}*/
 	}
 }

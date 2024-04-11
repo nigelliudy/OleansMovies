@@ -17,13 +17,5 @@ namespace Movies.Grains
 		{
 			_moviesContext = moviesContext;
 		}
-
-		public Task<Movie[]> GetHighestRate(int take)
-		{
-			return _moviesContext.Movies
-				.OrderByDescending(o => o.Rate)
-				.Take(take)
-				.ToArrayAsync();
-		}
 	}
 }

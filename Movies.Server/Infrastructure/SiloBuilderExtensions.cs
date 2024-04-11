@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using Movies.Core;
 using Orleans.Configuration;
 using Orleans.Hosting;
@@ -13,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Movies.Data;
 using Movies.Server.MovieJsonService;
-using Newtonsoft.Json;
 using HostBuilderContext = Microsoft.Extensions.Hosting.HostBuilderContext;
 
 namespace Movies.Server.Infrastructure
@@ -85,7 +83,7 @@ namespace Movies.Server.Infrastructure
 			var gatewayPort = context.SiloOptions.GatewayPort;
 
 			return siloHost
-					.UseLocalhostClustering(siloPort: siloPort, gatewayPort: gatewayPort)
+					.UseLocalhostClustering(siloPort, gatewayPort)
 				;
 		}
 
@@ -125,47 +123,9 @@ namespace Movies.Server.Infrastructure
 		{
 			var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
 			var dataFilename = Path.Combine(path, filename);
-			if (!File.Exists(dataFilename))
-			{
-				Console.WriteLine("*** File path not found: {0}", dataFilename);
-			}
+			if (!File.Exists(dataFilename)) Console.WriteLine("*** File path not found: {0}", dataFilename);
 
 			await MovieService.Configure(context, dataFilename, cancellation);
-
-			/*await using var fileStream = File.OpenRead(dataFilename);
-			using var streamReader = new StreamReader(fileStream);
-			using var jsonReader = new JsonTextReader(streamReader);
-			// The data is a property "movies" in the json root, 
-			// which should be the first array encountered.
-			while (jsonReader.TokenType != JsonToken.StartArray)
-			{
-				await jsonReader.ReadAsync(cancellation);
-			}
-
-			var jsonSerializer = new JsonSerializer();
-			// Read token by token from the stream
-			while (await jsonReader.ReadAsync(cancellation))
-			{
-				if (jsonReader.TokenType != JsonToken.StartObject)
-				{
-					continue;
-				}
-
-				var theObject = jsonSerializer.Deserialize<Movie>(jsonReader);
-				if (theObject is not null && await context.Movies.FindAsync(theObject.Id) == null)
-				{
-					await context.Movies.AddAsync(theObject, cancellation);
-				}
-				else
-				{
-					Console.WriteLine($"Duplicate MovieModel {theObject.Id} : {theObject.Name}");
-				}
-			}
-
-			await context.SaveChangesAsync(cancellation);
-
-			var firstMovie = context.Movies.First();
-			Console.WriteLine($"First movie ({firstMovie.Name}) in the table has Rating of : {firstMovie.Rate}");*/
 		}
 	}
 }

@@ -57,9 +57,6 @@ namespace Movies.Server.MovieJsonService
 
 		public override bool CanWrite => false;
 
-		public override bool CanConvert(Type objectType)
-		{
-			return objectType == typeof(string[]);
-		}
+		public override bool CanConvert(Type objectType) => objectType == typeof(string[]);
 	}
 }

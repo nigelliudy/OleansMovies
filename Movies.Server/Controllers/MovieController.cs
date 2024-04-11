@@ -11,15 +11,12 @@ namespace Movies.Server.Controllers
 	[Route("api/[controller]")]
 	public class MovieController : Controller
 	{
-		private readonly MoviesContext _moviesContext;
 		private readonly IMovieGrainClient _client;
 
 		public MovieController(
-			MoviesContext moviesContext,
 			IMovieGrainClient client
 		)
 		{
-			_moviesContext = moviesContext;
 			_client = client;
 		}
 
@@ -33,7 +30,7 @@ namespace Movies.Server.Controllers
 			return result;
 		}
 
-		[HttpGet("search/{term}")]
+		/*[HttpGet("search/{term}")]
 		public async Task<Movie[]> Search()
 		{
 			return await _moviesContext.Movies
@@ -41,10 +38,10 @@ namespace Movies.Server.Controllers
 				.Take(5)
 				.ToArrayAsync()
 				.ConfigureAwait(false);
-		}
+		}*/
 
 		[HttpGet("create")]
-		public async Task<int> Create()
+		public async Task<Movie> Create()
 		{
 			var result = await _client
 				.Create(new Movie

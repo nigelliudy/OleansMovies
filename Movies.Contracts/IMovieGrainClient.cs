@@ -9,8 +9,14 @@ namespace Movies.Contracts
 
 		Task<Movie[]> List();
 
-		Task<Movie[]> Search(string searchTerm, int take);
+		Task<Movie[]> Search(string searchTerm);
 
-		Task<int> Create(Movie movie);
+		Task<Movie[]> SearchGenres(string searchTerm);
+
+		Task<Movie> MovieDetails(int id);
+
+		Task<Movie> Create(Movie movie);
+
+		Task<Movie> Update(Movie movie);
 	}
 }

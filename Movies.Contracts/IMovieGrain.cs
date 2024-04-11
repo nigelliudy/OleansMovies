@@ -4,7 +4,10 @@ using Movies.Data;
 
 namespace Movies.Contracts
 {
-	public interface IQueryMoviesGrain : IGrainWithIntegerKey
+	public interface IMovieGrain : IGrainWithIntegerKey
 	{
+		Task<Movie> Get();
+
+		Task<Movie> Set(Movie movie);
 	}
 }

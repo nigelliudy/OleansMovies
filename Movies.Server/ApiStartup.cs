@@ -8,17 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movies.Core;
 using Movies.GrainClients;
-using Movies.Server.Gql;
-using Movies.Server.Gql.App;
 using Movies.Server.Gql.Movie;
 using Movies.Server.Infrastructure;
 using System.Reflection;
 using System.IO;
 using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Movies.Contracts;
-using Movies.Data;
 
 namespace Movies.Server
 {
@@ -104,12 +100,9 @@ namespace Movies.Server
 
 		private async Task OnApplicationStarted(IApplicationBuilder app)
 		{
-			string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+			var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
 			var dataFilename = Path.Combine(path, "movies.json");
-			if (!File.Exists(dataFilename))
-			{
-				Console.WriteLine("*** File path not found: {0}", dataFilename);
-			}
+			if (!File.Exists(dataFilename)) Console.WriteLine("*** File path not found: {0}", dataFilename);
 
 			Console.WriteLine("Data file name is '{0}'.", dataFilename);
 
