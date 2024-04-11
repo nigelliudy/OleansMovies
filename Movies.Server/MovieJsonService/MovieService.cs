@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using Movies.Data;
 using System.Threading.Tasks;
@@ -43,9 +42,6 @@ namespace Movies.Server.MovieJsonService
 			}
 
 			await context.SaveChangesAsync(cancellation);
-
-			var firstMovie = context.Movies.First();
-			Console.WriteLine($"First movie ({firstMovie.Name}) in the table has Rating of : {firstMovie.Rate}");
 		}
 	}
 }

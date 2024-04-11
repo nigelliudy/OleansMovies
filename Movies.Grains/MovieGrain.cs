@@ -9,6 +9,9 @@ using Movies.Data;
 
 namespace Movies.Grains
 {
+	/// <summary>
+	/// Holds a single movie data, with caching on Get(). Set() always writes through the caching.
+	/// </summary>
 	[StorageProvider(ProviderName = "Default")]
 	public class MovieGrain : Grain<Movie>, IMovieGrain
 	{
@@ -40,10 +43,19 @@ namespace Movies.Grains
 
 		public async Task<Movie> Set(Movie movie)
 		{
-			_lastUpdate = DateTime.Now;
 			_moviesContext.Movies.Update(movie);
-			await _moviesContext.SaveChangesAsync();
+			try
+			{
+				await _moviesContext.SaveChangesAsync();
+			}
+			catch
+			{
+				var errorMessage = $"MovieGrain: Error writing to database {movie.Name}";
+				Console.WriteLine(errorMessage);
+				throw new Exception(errorMessage);
+			}
 			_moviesContext.Entry(movie).State = EntityState.Detached;
+			_lastUpdate = DateTime.Now;
 			State = movie;
 
 			Console.WriteLine($"MovieGrain: Write to database {movie.Name}");

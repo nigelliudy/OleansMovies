@@ -58,7 +58,7 @@ namespace Movies.Core
 
 		private static readonly Dictionary<string, string> EnvironmentMapping = new Dictionary<string, string>
 		{
-			["Development"] = "dev", ["Staging"] = "staging", ["Production"] = "prod",
+			["Development"] = "dev", ["Staging"] = "staging", ["Production"] = "prod"
 		};
 
 		public AppInfo()

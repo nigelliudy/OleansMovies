@@ -48,7 +48,7 @@ namespace Movies.Server
 				{
 					var shortEnvName = AppInfo.MapEnvironmentName(ctx.HostingEnvironment.EnvironmentName);
 					cfg.AddJsonFile("appsettings.json")
-						.AddJsonFile($"appsettings.{shortEnvName}.json", optional: true)
+						.AddJsonFile($"appsettings.{shortEnvName}.json", true)
 						.AddJsonFile("app-info.json")
 						.AddEnvironmentVariables()
 						.AddCommandLine(args);
@@ -60,7 +60,7 @@ namespace Movies.Server
 					cfg.Sources.Clear();
 
 					cfg.AddJsonFile("appsettings.json")
-						.AddJsonFile($"appsettings.{shortEnvName}.json", optional: true)
+						.AddJsonFile($"appsettings.{shortEnvName}.json", true)
 						.AddJsonFile("app-info.json")
 						.AddEnvironmentVariables()
 						.AddCommandLine(args);
@@ -90,8 +90,9 @@ namespace Movies.Server
 							}
 						})
 						.ConfigureApplicationParts(parts => parts
-							.AddApplicationPart(typeof(SampleGrain).Assembly).WithReferences()
-							.AddApplicationPart(typeof(QueryMoviesGrain).Assembly).WithReferences()
+							.AddApplicationPart(typeof(CreateMovieGrain).Assembly).WithReferences()
+							.AddApplicationPart(typeof(ListMoviesGrain).Assembly).WithReferences()
+							.AddApplicationPart(typeof(MovieGrain).Assembly).WithReferences()
 						)
 						.AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
 						;

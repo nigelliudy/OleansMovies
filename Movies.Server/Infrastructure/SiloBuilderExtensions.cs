@@ -106,6 +106,9 @@ namespace Movies.Server.Infrastructure
 			return siloBuilder;
 		}
 
+		/// <summary>
+		/// Adds a single startup task to populate database from the given file.
+		/// </summary>
 		private static ISiloBuilder UseStartupTasks(this ISiloBuilder siloHost, AppSiloBuilderContext context)
 		{
 			siloHost.AddStartupTask(async (provider, cancellation) =>
@@ -118,6 +121,9 @@ namespace Movies.Server.Infrastructure
 			return siloHost;
 		}
 
+		/// <summary>
+		/// Calls a helper MovieService to populate database using the given file.
+		/// </summary>
 		private static async Task PopulateMoviesFromFile(MoviesContext context, string filename,
 			CancellationToken cancellation)
 		{

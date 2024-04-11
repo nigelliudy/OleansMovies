@@ -5,6 +5,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Movies.Server.MovieJsonService
 {
+	/// <summary>
+	/// Represents a JObject for each movie entry.
+	/// </summary>
 	public class MovieJsonModel
 	{
 		public int Id { get; set; }
@@ -20,6 +23,9 @@ namespace Movies.Server.MovieJsonService
 		public string Img { get; set; }
 	}
 
+	/// <summary>
+	/// Map from json movie model to application's movie model.
+	/// </summary>
 	public static class MovieJsonModelExtensions
 	{
 		public static Movie MapToMovie(this MovieJsonModel model) =>
@@ -36,6 +42,9 @@ namespace Movies.Server.MovieJsonService
 			};
 	}
 
+	/// <summary>
+	/// Converts JArray into string [].
+	/// </summary>
 	public class StringArrayConverter : JsonConverter
 	{
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue,

@@ -1,10 +1,10 @@
-﻿using GraphQL;
-using GraphQL.Types;
-using Movies.Contracts;
-using Movies.Data;
+﻿using GraphQL.Types;
 
 namespace Movies.Server.Gql.Types
 {
+	/// <summary>
+	/// Input argument type for movie mutations.
+	/// </summary>
 	public class MovieInputGraphType : InputObjectGraphType<Data.Movie>
 	{
 		public MovieInputGraphType()

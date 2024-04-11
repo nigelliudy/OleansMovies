@@ -95,10 +95,10 @@ namespace Movies.Server
 				endpoints.MapHealthChecks("/health");
 			});
 
-			life.ApplicationStarted.Register(OnApplicationStarted(app).Wait);
+			//life.ApplicationStarted.Register(OnApplicationStarted(app).Wait);
 		}
 
-		private async Task OnApplicationStarted(IApplicationBuilder app)
+		/*private async Task OnApplicationStarted(IApplicationBuilder app)
 		{
 			var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
 			var dataFilename = Path.Combine(path, "movies.json");
@@ -108,6 +108,6 @@ namespace Movies.Server
 
 			var grainClient = app.ApplicationServices.GetService<ISampleGrainClient>();
 			await grainClient.Configure(dataFilename);
-		}
+		}*/
 	}
 }

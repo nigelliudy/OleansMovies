@@ -53,7 +53,7 @@ namespace Movies.Core
 
 				if (prop.PropertyType.IsEnum && item.Value is string strValue)
 				{
-					var enumValue = Enum.Parse(prop.PropertyType, strValue, ignoreCase: true);
+					var enumValue = Enum.Parse(prop.PropertyType, strValue, true);
 					prop.SetValue(obj, enumValue, null);
 				}
 				else

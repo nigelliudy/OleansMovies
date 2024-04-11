@@ -9,6 +9,9 @@ using Movies.Data;
 
 namespace Movies.Grains
 {
+	/// <summary>
+	/// Gathers movie data into a list using various rules.
+	/// </summary>
 	[StorageProvider(ProviderName = "Default")]
 	public class ListMoviesGrain : Grain, IListMoviesGrain
 	{

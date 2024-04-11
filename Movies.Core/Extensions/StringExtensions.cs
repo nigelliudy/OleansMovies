@@ -14,7 +14,7 @@ namespace Movies.Core
 		public static string ToHypenCase(this string value)
 		{
 			var chars = value.ToList();
-			for (int i = 0; i < chars.Count - 1; i++)
+			for (var i = 0; i < chars.Count - 1; i++)
 			{
 				if (char.IsWhiteSpace(chars[i]) || !char.IsUpper(chars[i + 1]))
 					continue;
@@ -89,10 +89,7 @@ namespace Movies.Core
 		public static string TrimStart(this string value, string trimString)
 		{
 			var result = value;
-			while (result.StartsWith(trimString))
-			{
-				result = result.Substring(trimString.Length);
-			}
+			while (result.StartsWith(trimString)) result = result.Substring(trimString.Length);
 
 			return result;
 		}
@@ -106,10 +103,7 @@ namespace Movies.Core
 		public static string TrimEnd(this string value, string trimValue)
 		{
 			var result = value;
-			while (result.EndsWith(trimValue))
-			{
-				result = result.Substring(0, result.Length - trimValue.Length);
-			}
+			while (result.EndsWith(trimValue)) result = result.Substring(0, result.Length - trimValue.Length);
 
 			return result;
 		}

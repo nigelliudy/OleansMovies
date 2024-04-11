@@ -12,11 +12,10 @@ namespace Orleans
 		public static string
 			GetPrimaryKeyAny(
 				this Grain grain) //  todo: ideally this should be IGrain instead, if Grain implemented IGrain.
-		{
-			return grain.GetPrimaryKeyString()
-			       ?? (grain.IsPrimaryKeyBasedOnLong()
-				       ? grain.GetPrimaryKeyLong().ToString()
-				       : grain.GetPrimaryKey().ToString());
-		}
+			=>
+				grain.GetPrimaryKeyString()
+				?? (grain.IsPrimaryKeyBasedOnLong()
+					? grain.GetPrimaryKeyLong().ToString()
+					: grain.GetPrimaryKey().ToString());
 	}
 }

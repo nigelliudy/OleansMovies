@@ -4,6 +4,9 @@ using Movies.Data;
 
 namespace Movies.Contracts
 {
+	/// <summary>
+	/// For use by grains that return lists of movie.
+	/// </summary>
 	public interface IListMoviesGrain : IGrainWithStringKey
 	{
 		Task<Movie[]> GetHighestRate(int take);

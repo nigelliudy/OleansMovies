@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Movies.Contracts;
+﻿using Movies.Contracts;
 using Orleans;
 using Orleans.Providers;
 using System.Threading.Tasks;
@@ -8,6 +7,9 @@ using Movies.Data;
 
 namespace Movies.Grains
 {
+	/// <summary>
+	/// Creates a new movie data, primary key not used.
+	/// </summary>
 	[StorageProvider(ProviderName = "Default")]
 	public class CreateMovieGrain : Grain, ICreateMovieGrain
 	{

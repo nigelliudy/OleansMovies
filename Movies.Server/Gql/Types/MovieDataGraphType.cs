@@ -1,9 +1,10 @@
 ﻿using GraphQL.Types;
-using Movies.Contracts;
-using Movies.Data;
 
 namespace Movies.Server.Gql.Types
 {
+	/// <summary>
+	/// Output type for movie queries, and mutations.
+	/// </summary>
 	public class MovieDataGraphType : ObjectGraphType<Data.Movie>
 	{
 		public MovieDataGraphType()

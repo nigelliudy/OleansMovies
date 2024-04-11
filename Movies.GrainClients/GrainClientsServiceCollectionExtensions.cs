@@ -5,9 +5,11 @@ namespace Movies.GrainClients
 {
 	public static class GrainClientsServiceCollectionExtensions
 	{
+		/// <summary>
+		/// Used to register grain client during startup.
+		/// </summary>
 		public static void AddAppClients(this IServiceCollection services)
 		{
-			services.AddSingleton<ISampleGrainClient, SampleGrainClient>();
 			services.AddSingleton<IMovieGrainClient, MovieGrainClient>();
 		}
 	}

@@ -6,6 +6,9 @@ using Movies.Data;
 
 namespace Movies.GrainClients
 {
+	/// <summary>
+	/// Used by Graph query or mutation to execute logic that is in grains.
+	/// </summary>
 	public class MovieGrainClient : IMovieGrainClient
 	{
 		private readonly IGrainFactory _grainFactory;
@@ -25,7 +28,7 @@ namespace Movies.GrainClients
 
 		public Task<Movie[]> List()
 		{
-			var grain = _grainFactory.GetGrain<IListMoviesGrain>("list");
+			var grain = _grainFactory.GetGrain<IListMoviesGrain>($"list {DateTime.Now}");
 			return grain.List();
 		}
 

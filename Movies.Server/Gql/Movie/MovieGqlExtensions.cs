@@ -5,6 +5,9 @@ using Movies.Server.Gql.Types;
 
 namespace Movies.Server.Gql.Movie
 {
+	/// <summary>
+	/// Configures all types for GraphQL during start up.
+	/// </summary>
 	public static class MovieGqlExtensions
 	{
 		public static void AddMovieGraphQL(this IServiceCollection services)

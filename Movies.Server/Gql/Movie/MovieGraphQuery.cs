@@ -5,6 +5,9 @@ using Movies.Server.Gql.Types;
 
 namespace Movies.Server.Gql.Movie
 {
+	/// <summary>
+	/// Define queries for home, list, search and detail.
+	/// </summary>
 	public class MovieGraphQuery : ObjectGraphType
 	{
 		public MovieGraphQuery(IMovieGrainClient movieClient /*, MoviesContext moviesContext*/)

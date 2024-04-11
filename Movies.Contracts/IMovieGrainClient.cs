@@ -3,6 +3,9 @@ using Movies.Data;
 
 namespace Movies.Contracts
 {
+	/// <summary>
+	/// Interface for movie grain client.
+	/// </summary>
 	public interface IMovieGrainClient
 	{
 		Task<Movie[]> GetHighestRate(int take);

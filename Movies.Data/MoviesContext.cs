@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Movies.Data
 {
+	/// <summary>
+	/// The database context that coordinates CRUD operations.
+	/// </summary>
 	public class MoviesContext : DbContext
 	{
 		public DbSet<Movie> Movies { get; set; } = null!;

@@ -1,79 +1,176 @@
-# Movies Microservice
-**Version: 1.0**
-## Scenario
+See detailed walkthrough in the second half, [or click here to view on github](https://github.com/nigelliudy/OleansMovies/wiki#detailed-walkthrough-of-movie-creation-duplicate-update-and-searching)
 
-You are tasked with creating an API for an application that the company is building for a client. The application is a movies indexing application that will have high volumes of traffic and thus it needs to be fast, efficient and robust while being secure at the same time.
+# Quick start
 
-The application has the following functionality:
+As a quick start guide, this application can be tested at "http://localhost:6600/ui/playground"
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/fbca2fa9-ba01-411e-b5c7-44a393ce893b)
 
-## Features
+Ensure that movies.json is copied to the bin directory when running the highlighted application project (silo local). After that, browse to the playground UI.
 
-- **Home**
-  - List top 5 highest rated movies
-- **Movies List**
-  - List Movies
-  - Search
-  - Filter by Genre
-- **Movie detail**
-  - Display selected movie detail information
-- **Create Movie**
-  - Create a new movie that can be retrieved in the movies list
-- **Update Movie**
-  - Update movies data.  
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/8172930d-b247-47a1-8c3d-5961d3f7fdff)
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/1f8829e0-f648-451c-a9b9-3b4b8f18c7e1)
 
-### Technologies required
 
-- [ASP.NET (AspNetCore)](https://dotnet.microsoft.com/apps/aspnet) (3.1 or higher)
-- [Microsoft Orleans](https://dotnet.github.io/orleans/) (3 or higher)
-- [GraphQL](https://github.com/graphql-dotnet/graphql-dotnet) (3 or higher)
+# GraphQL playground queries and variables
 
-*You may use any 3rd party libraries which can facilitates your development.*
+## Use the following as example queries in playground
 
-### Content
+```
+query Home {
+    home_top_5 {
+      name,
+      rate,
+      image
+    },
+    movies_list(type: "search", search_name: "Dark Knight") {
+      id,
+      key,
+    	name,
+      description,
+      genres,
+      image
+    }
+}
 
-- A complete working solution with GraphQL and Orleans pre-configured. You do not need to create the boilerplate code yourself
-- A `movies.json` with some mock data that can be used as your database (Although you might opt to use some other datasource)
+query Movies_List {
+    home(top: 2) {
+      name,
+      image,
+      rate
+    },
+    movies_list(type: "list") {
+      name
+    }
+}
 
-### Running the sample application
+query Movies_Search($searchName: String!) {
+    movies_list(type: "search", search_name: $searchName) {
+      name,
+      description,
+    },
+}
 
-- Make sure the startup project is set to `Movies.Server`
-- The project has one controller `SampleDataController` that has to requests:
-  - [GET] http://localhost:6600/api/sampledata/{id}
-  - [POST] http://localhost:6600/api/sampledata/{id}
-- There is also a Graph Query for the Application `AppGraphQuery` and one GraphType `SampleDataGraphType`
-  - Accessible through: `http://localhost:6600/api/graphql`
-  - Sample query:
-      ```
-      query sampleData($id: String!) {
-          sample(id: $id) {
-              id,
-              name
-          }
-      }
-      ```
-- All the endpoints call one simple Grain called `SampleGrain` that holds the data on the Orleans server
+query Movies_Genre($searchGenre: String!) {
+    movies_list(type: "filter_by_genres", search_genres: $searchGenre) {
+      name,
+      description,
+    	genres,
+      rate,
+      image
+    }
+}
 
-### Helpful links
-- [Orleans](https://dotnet.github.io/orleans/docs/grains/index.html)
-- [GraphQL](https://graphql.org/learn/)
-- [Docker](https://www.docker.com/)
+mutation Create_Movie($newMovie: MovieInput!) {
+    create(movie: $newMovie) {
+      id,
+      name,
+      genres
+    }
+}
 
-### Extra Credit
+mutation Update_Movie($updateMovie: MovieInput!) {
+    update(movie: $updateMovie) {
+      id,
+      name,
+      genres
+    }
+}
 
-- Pre-loading data in memory on App Start-up so it can be retrieved faster (using the required technologies)
-- Use of good design patterns that avoid bottle necks
-- Add Unit tests
-- Rudimentary UI
-- Dockerized application
+query Movie_Detail($detailMovieId: Int!) {
+    movie_detail(id: $detailMovieId) {
+      id,
+      key,
+    	name,
+      description,
+      genres,
+      image
+    }
+}
+```
+## Then use these as example variables in playground
+```
+{
+  "searchName": "the",
+  "searchGenre": "drama",
+  "detailMovieId": 17,
+  "newMovie": {
+    "id": 0,
+    "key": "duplicating-newmovie",
+    "name": "New Duplication Movie",
+    "description": "A movie that keeps on duplicating endlessly.",
+    "genres": [
+        "horror",
+        "comedy",
+        "drama"
+    ],
+    "rate": "1.0",
+    "length": "1hr 1mins",
+    "image": "duplicate-new.jpg"
+  },
+  "updateMovie": {
+    "id": 17,
+    "key": "running-away",
+    "name": "Running Away",
+    "description": "Changed from running scared to running away.",
+    "genres": [
+        "action",
+        "crime",
+        "drama"
+    ],
+    "rate": "7.4",
+    "length": "2hr 2mins",
+    "image": "running-away.jpg"
+  }
+}
+```
+# Detailed walkthrough of movie creation, duplicate, update and searching
 
-If you get the demo in good shape and have extra time, add your own flair and features.
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/5d32f0f2-3383-49c0-a4b8-2630636c1851)
 
-### Deliverable
+The objective is to add a movie titled "New Duplication Movie", attempt to add the same movie again, update a another movie, and list all movies.
+1. Click on the play button run the query ```Create_Movie```. This will add "New Duplication Movie" from the variable "newMovie".
+2. Do the same again.
+3. Now choose ```Movies_List``` and you should see the following in the results.
 
-- Provide a working application
-- Provide source code in a public git such as github or Bitbucket repository
-- Provide markdown readme file
-  - General information about the app
-  - Provide steps how to build/launch your application
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/c9b24876-85b7-492a-8205-81324de790c5)
 
-Good luck!
+Notice how the "New Duplication Movie" can be added twice without the same id. To remove "home" and see the id in "movies_list":
+1. Replace ```query Movies_List``` with the following
+```
+query Movies_List {
+    movies_list(type: "list") {
+      id,
+      name
+    }
+}
+```
+2. Confirm that the id for both instances of "New Duplication Movie" are different.
+
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/342951f0-21d1-4f50-a93e-5264c9522599)
+
+***
+
+Next objective is to update an existing movie at id: 17
+1. Confirm that the variables has "updateMovie" like so
+
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/228c6efd-d8d9-408a-b6ab-9f426570c580)
+
+2. Run the query ```Update_Movie```
+3. Confirm the name of movie has changed for id: 17
+
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/b7d4c5a9-22aa-44e0-9218-c73ca6b75b7b)
+
+***
+
+Next objective is to search by name (or genre) that contain the search term
+1. Confirm that the variables "searchName" and "searchGenre" are present
+
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/9c15e267-ec69-4d63-ad1f-b1330db5c1da)
+
+2. Run the ```Movies_Search``` to match movie names containing "searchName" substring
+3. Run the ```Movies_Genre``` to match movie genres containing "searchGenre" substring
+4. Note that "movies_list" is being reused, hence result's property display "movies_list" for the above searches.
+
+![image](https://github.com/nigelliudy/OleansMovies/assets/166240092/d0688ece-d01c-465b-93de-b6b2a4bca2f1)
+
+Screenshot example of running ```Movies_Search```

@@ -6,8 +6,9 @@ using Movies.Server.Gql.Types;
 
 namespace Movies.Server.Gql.Movie
 {
-	internal delegate Task<Data.Movie> MutationType(Data.Movie movie);
-
+	/// <summary>
+	/// Define mutations for movie create, update.
+	/// </summary>
 	public class MovieGraphMutation : ObjectGraphType
 	{
 		public MovieGraphMutation(IMovieGrainClient movieClient)
