@@ -1,4 +1,5 @@
-﻿using Movies.Contracts;
+﻿using System;
+using Movies.Contracts;
 using Orleans;
 using Orleans.Providers;
 using System.Threading.Tasks;
@@ -20,11 +21,25 @@ namespace Movies.Grains
 			_moviesContext = moviesContext;
 		}
 
+		/// <summary>
+		/// Used by create movie.
+		/// </summary>
 		public async Task<Movie> CreateMovie(Movie movie)
 		{
+			// usually in a database, this is handled by an identity/auto-incrementing column
 			movie.Id = await _moviesContext.Movies.MaxAsync(m => m.Id) + 1;
 			await _moviesContext.Movies.AddAsync(movie);
-			await _moviesContext.SaveChangesAsync();
+			try
+			{
+				await _moviesContext.SaveChangesAsync();
+			}
+			catch
+			{
+				var errorMessage = $"CreateMovieGrain: Error writing to database {movie.Name}";
+				Console.WriteLine(errorMessage);
+				throw new Exception(errorMessage);
+			}
+			_moviesContext.Entry(movie).State = EntityState.Detached;
 
 			return movie;
 		}

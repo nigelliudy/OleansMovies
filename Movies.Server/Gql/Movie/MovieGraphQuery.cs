@@ -14,6 +14,7 @@ namespace Movies.Server.Gql.Movie
 		{
 			Name = "MovieQueries";
 
+			// Home
 			Field<ListGraphType<MovieDataGraphType>>("home_top_5",
 				resolve: ctx => movieClient.GetHighestRate(5)
 			);
@@ -23,6 +24,9 @@ namespace Movies.Server.Gql.Movie
 					ctx.GetArgument<int>("top", 5)
 				)
 			);
+			// Movie list
+			// Search
+			// Filter by genres
 			Field<ListGraphType<MovieDataGraphType>>("movies_list",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<StringGraphType>> {Name = "type"},
@@ -38,6 +42,7 @@ namespace Movies.Server.Gql.Movie
 						_ => movieClient.List()
 					}
 			);
+			// Movie detail
 			Field<MovieDataGraphType>("movie_detail",
 				arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IntGraphType>> {Name = "id"}),
 				resolve: ctx =>

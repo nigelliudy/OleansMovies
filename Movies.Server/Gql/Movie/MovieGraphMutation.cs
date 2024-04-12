@@ -15,11 +15,13 @@ namespace Movies.Server.Gql.Movie
 		{
 			Name = "MovieMutations";
 
+			// Create movie
 			Field<MovieDataGraphType>("create",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<MovieInputGraphType>> {Name = "movie"}),
 				resolve: ctx => ResolveGrain(ctx, movieClient)
 			);
+			// Update movie
 			Field<MovieDataGraphType>("update",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<MovieInputGraphType>> {Name = "movie"}),
@@ -27,6 +29,9 @@ namespace Movies.Server.Gql.Movie
 			);
 		}
 
+		/// <summary>
+		/// If movie input has an Id of 0, creates the movie instead. This applies to create and update.
+		/// </summary>
 		private object ResolveGrain(IResolveFieldContext<object> context, IMovieGrainClient movieClient)
 		{
 			var theMovie = context.GetArgument<Data.Movie>("movie");

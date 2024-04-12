@@ -7,7 +7,7 @@ using Movies.Data;
 namespace Movies.GrainClients
 {
 	/// <summary>
-	/// Used by Graph query or mutation to execute logic that is in grains.
+	/// Used by Graph query or mutation to execute logic found in grains.
 	/// </summary>
 	public class MovieGrainClient : IMovieGrainClient
 	{

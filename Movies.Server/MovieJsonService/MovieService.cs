@@ -9,9 +9,12 @@ namespace Movies.Server.MovieJsonService
 {
 	public static class MovieService
 	{
+		/// <summary>
+		/// Pre-loads database data.
+		/// </summary>
 		public static async Task Configure(MoviesContext context, string filename, CancellationToken cancellation)
 		{
-			Console.WriteLine("Data file name is '{0}'.", filename);
+			Console.WriteLine("Loading data file '{0}'.", filename);
 
 			await using var fileStream = File.OpenRead(filename);
 			using var streamReader = new StreamReader(fileStream);
@@ -33,11 +36,11 @@ namespace Movies.Server.MovieJsonService
 					var movieObject = theObject.MapToMovie();
 					if (context.Movies.Find(movieObject.Id) == null)
 					{
-						Console.WriteLine($"MovieJsonModel {movieObject.Id} : {movieObject.Name}");
+						Console.WriteLine($"Loaded movie, {movieObject.Id} : {movieObject.Name}");
 						await context.Movies.AddAsync(movieObject, cancellation);
 					}
 					else
-						Console.WriteLine($"Duplicate MovieJsonModel {movieObject.Id} : {movieObject.Name}");
+						Console.WriteLine($"Duplicate found, {movieObject.Id} : {movieObject.Name}");
 				}
 			}
 

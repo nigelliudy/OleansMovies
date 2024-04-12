@@ -62,6 +62,9 @@ namespace Movies.Server.Infrastructure
 			return siloHost;
 		}
 
+		/// <summary>
+		/// Added EF Core DB Context pool which is used by grains to simulate access to a real database.
+		/// </summary>
 		private static ISiloBuilder UseDevelopment(this ISiloBuilder siloHost, AppSiloBuilderContext context)
 		{
 			siloHost

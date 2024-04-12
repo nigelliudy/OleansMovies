@@ -1,4 +1,5 @@
-﻿using GraphiQl;
+﻿using System.Threading.Tasks;
+using GraphiQl;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,11 +11,6 @@ using Movies.Core;
 using Movies.GrainClients;
 using Movies.Server.Gql.Movie;
 using Movies.Server.Infrastructure;
-using System.Reflection;
-using System.IO;
-using System;
-using System.Threading.Tasks;
-using Movies.Contracts;
 
 namespace Movies.Server
 {
@@ -82,6 +78,11 @@ namespace Movies.Server
 				app.UseDeveloperExceptionPage();
 				app.UseGraphiQl();
 			}
+			else
+			{
+				// for remote server to notify developer group of exceptions
+				app.UseMiddleware<ExceptionHandlerMiddleware>();
+			}
 
 			app.UseRouting();
 
@@ -98,16 +99,20 @@ namespace Movies.Server
 			//life.ApplicationStarted.Register(OnApplicationStarted(app).Wait);
 		}
 
-		/*private async Task OnApplicationStarted(IApplicationBuilder app)
+		/// <summary>
+		/// Pre-loads database data at application level.
+		/// </summary>
+		private Task OnApplicationStarted(IApplicationBuilder app)
 		{
-			var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+			/*var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
 			var dataFilename = Path.Combine(path, "movies.json");
 			if (!File.Exists(dataFilename)) Console.WriteLine("*** File path not found: {0}", dataFilename);
 
 			Console.WriteLine("Data file name is '{0}'.", dataFilename);
 
 			var grainClient = app.ApplicationServices.GetService<ISampleGrainClient>();
-			await grainClient.Configure(dataFilename);
-		}*/
+			await grainClient.Configure(dataFilename);*/
+			return Task.CompletedTask;
+		}
 	}
 }

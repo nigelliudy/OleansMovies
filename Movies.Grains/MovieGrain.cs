@@ -15,7 +15,7 @@ namespace Movies.Grains
 	[StorageProvider(ProviderName = "Default")]
 	public class MovieGrain : Grain<Movie>, IMovieGrain
 	{
-		private static TimeSpan CACHE_LENGTH = new TimeSpan(0, 0, 20);
+		private static TimeSpan _cacheLength = new TimeSpan(0, 0, 20);
 		private readonly MoviesContext _moviesContext;
 		private DateTime _lastUpdate;
 
@@ -24,23 +24,28 @@ namespace Movies.Grains
 			_moviesContext = moviesContext;
 		}
 
+		/// <summary>
+		/// Used by movie detail. Uses the State as cache, with 'CACHE_LENGTH' duration. 
+		/// </summary>
 		public Task<Movie> Get()
 		{
-			if (_lastUpdate + CACHE_LENGTH < DateTime.Now)
+			if (_lastUpdate + _cacheLength < DateTime.Now)
 			{
 				var movie = _moviesContext.Movies
 					.AsNoTracking()
 					.SingleOrDefault(s => s.Id == this.GetPrimaryKeyLong());
 				State = movie;
 				_lastUpdate = DateTime.Now;
-				Console.WriteLine($"MovieGrain: Read from database {movie?.Name}");
 			}
-			else
-				Console.WriteLine($"MovieGrain: Read from cache {State?.Name}");
+			/*else
+				Console.WriteLine($"MovieGrain: Read from cache {State?.Name}");*/
 
 			return Task.FromResult(State);
 		}
 
+		/// <summary>
+		/// Used by update movie.
+		/// </summary>
 		public async Task<Movie> Set(Movie movie)
 		{
 			_moviesContext.Movies.Update(movie);
@@ -58,7 +63,6 @@ namespace Movies.Grains
 			_lastUpdate = DateTime.Now;
 			State = movie;
 
-			Console.WriteLine($"MovieGrain: Write to database {movie.Name}");
 			return State;
 		}
 	}
